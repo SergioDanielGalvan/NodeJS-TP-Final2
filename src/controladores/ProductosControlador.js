@@ -26,7 +26,8 @@ export const getAllProductosByCategoria = async ( req, res ) => {
     res.status(500).json({ error: "Error del servidor" });
   }
   finally {
-};
+  }
+;
 
 export const getProductoById = async ( req, res ) => {
   try { 
