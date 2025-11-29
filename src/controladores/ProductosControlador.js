@@ -1,5 +1,7 @@
-
 import * as model from "../modelos/Productos.js";
+
+const cLargoMinimoNombre = 10;
+const cLargoMaxinoNombre = 40;
 
 export const getAllProductos = async ( req, res ) => {
   try {
@@ -47,9 +49,17 @@ export const getProductoById = async ( req, res ) => {
 };
 
 export const createProducto = async ( req, res ) => {
+  // Checks
   if ( typeof req.body.nombre == undefined ) {
-    return res.status(422).json({ error: "El nombre es obligatorio" });
+    return res.status(422).json({ error: `El nombre es obligatorio` });
   }
+  else if( req.body.nombre .length < cLargoMinimoNombre ) {
+    return res.status(422).json({ error: `El nombre debe tener al menos ${cLargoMinimoNombre} caracteres` });
+  }
+  else if( req.body.nombre .length > cLargoMaxinoNombre ) {
+    return res.status(422).json({ error: `El nombre no debe exceder los ${cLargoMaxinoNombre} caracteres` });
+  }
+
 
   const { nombre, precio, categorias, stock } = req.body;
 

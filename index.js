@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import productosRouter from "./src/rutas/ProductosRouter.js";
+import authRouter from "./src/routes/auth.router.js";
+import { auth } from "./src/middlewares/auth.middleware.js";
 
 const app = express();
 
