@@ -91,6 +91,18 @@ export const updateStockById = async ( req, res ) => {
   }
 };
 
+export const deleteProductoById = async ( req, res ) => {
+  try {
+    const { id } = req.params;  
+    const result = await modelo.deleteProductoById( id );
+    res.status(200).json( result );
+  } catch ( error ) {
+    res.status(500).json({ error: "Error del servidor" });
+  }   
+  finally {
+  }
+}
+
 export const createProducto = async ( req, res ) => {
   // Checks
   if ( typeof req.body.nombre == undefined ) {
@@ -104,6 +116,19 @@ export const createProducto = async ( req, res ) => {
   }
 
   const { nombre, precio, categorias, stock } = req.body;
+  if ( typeof precio === 'undefined' ) {
+    return res.status(422).json({ error: "El precio es obligatorio" });
+  }
+  else if ( isNaN( precio ) || precio < 0 ) {
+    return res.status(422).json({ error: "El precio debe ser un número válido mayor o igual a 0" });
+  }
+
+  if ( !stock ) {
+    stock = 0;
+  }
+  else if ( isNaN( stock ) || !Number.isInteger( stock ) || stock < 0 ) ) {
+    return res.status(422).json({ error: "El stock debe ser un número entero válido mayor o igual a 0" });
+  }
 
   const producto = await modelo.createProducto( nombre, precio, categorias, stock );
 
