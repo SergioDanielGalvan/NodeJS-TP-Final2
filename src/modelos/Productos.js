@@ -118,26 +118,10 @@ export const deleteProductoById = async ( id ) => {
 } 
 
 export const createProducto = async ( nombre, precio, categorias, stock ) => {
-  const product = {
-    id: Math.max( ...productos.map( p => p.id ) ) + 1,//Date.now(),
-    nombre,
-    precio,
-    categorias,
-    stock,
-  };
-
   try {
-    const data = await fs.readFile( path.join(__dirname, "Productos.json"), "utf-8" );
-
-    const productos = JSON.parse(data);
-
-    productos.push(producto);
-
-    await fs.writeFile(
-      path.join(__dirname, "products.json"),
-      JSON.stringify(productos)
-    );
-
+    let sql = 'INSERT INTO productos ( nombre, precio, categorias, stock ) VALUES ( ?, ?, ?, ? )';
+    const db = await connection();
+    const [producto] = await db.execute(sql, [ nombre, precio, JSON.stringify(categorias), stock ] ); 
     return producto;
   } catch (error) {
     console.error(error);

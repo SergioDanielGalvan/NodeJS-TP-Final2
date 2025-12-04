@@ -114,7 +114,7 @@ export const createProducto = async ( req, res ) => {
   else if( req.body.nombre .length > cLargoMaxinoNombre ) {
     return res.status(422).json({ error: `El nombre no debe exceder los ${cLargoMaxinoNombre} caracteres` });
   }
-
+  console.log(req.body);
   const { nombre, precio, categorias, stock } = req.body;
   if ( typeof precio === 'undefined' ) {
     return res.status(422).json({ error: "El precio es obligatorio" });
@@ -126,7 +126,7 @@ export const createProducto = async ( req, res ) => {
   if ( !stock ) {
     stock = 0;
   }
-  else if ( isNaN( stock ) || !Number.isInteger( stock ) || stock < 0 ) ) {
+  else if ( isNaN( stock ) || !Number.isInteger( stock ) || stock < 0 ) {
     return res.status(422).json({ error: "El stock debe ser un número entero válido mayor o igual a 0" });
   }
 
