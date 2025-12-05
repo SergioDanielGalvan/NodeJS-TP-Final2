@@ -17,28 +17,42 @@ export const login = async (req, res) => {
     return res.status(400).json({ error: "Faltan credenciales" });
   }
   try {
-    let sql = 'SELECT email, password, intentos FROM operadores WHERE email = ? AND password = ?';
+    //let sql = 'SELECT email, password, intentos FROM operadores WHERE email = ? AND password = ?';
+    let sql = 'SELECT email, password, intentos FROM operadores WHERE email = ?';
     const db = await connection();
-    const params = [email, hashString(password)];
-    const usuario = await db.execute(sql, params);
-    if ( !usuario ) {
+    const params = [email];
+    const [ rows ] = await db.execute(sql, params);
+    let usuario = null;
+    if ( !rows || rows.length == 0 ) {
       return {"error": "Credenciales no encontradas"};
     }
-    console.log( usuario );
-    if ( usuario[0].length == 1 ) {
-      if ( usuario[0][ "email" ].length == 0 ) { 
-        return res.status(401).json({ error: "Credenciales inválidas" });
+    if ( rows.length == 1 ) {
+      usuario = rows[0]; 
+      if ( usuario.email.length == 0 ) { 
+        return res.status(401).json({ error: "Credenciales inválidas!" });
       }
-      // Generar el token JWT
-      if ( email == usuario[0][ "email" ] ) {
-        const token = jwt.sign({ email }, process.env.JWT_SECRET || "V1trS3cr3t!", {
-          expiresIn: "1h",
-        });
-        // Set de campos en la tabla operadores
-        let sqlUpdate = 'UPDATE operadores SET last_login = NOW(), intentos = 0 WHERE email = ?';
+      if ( usuario.intentos >= 3 ) {
+        return res.status(403).json({ error: "Cuenta bloqueada por múltiples intentos fallidos. Contacte al administrador." });
+      }
+      const hashedPassword = hashString( password );
+      if ( hashedPassword !== usuario.password ) {
+        // Incrementar el contador de intentos fallidos 
+        let sqlUpdate = 'UPDATE operadores SET intentos = intentos + 1 WHERE email = ?';
         const updateParams = [email];
         await db.execute(sqlUpdate, updateParams);
-        
+        return res.status(401).json({ error: "Credenciales inválidas!" });
+      }
+
+      // Generar el token JWT
+      if ( email == usuario.email ) {
+        const token = jwt.sign({ email }, process.env.JWT_SECRET || "V1trS3cr3t!", {
+          expiresIn: process.env.JWT_TIEMPO_EXPIRACION || "1h",
+        });
+        // Set de campos en la tabla operadores
+        let sqlUpdate = 'UPDATE operadores SET 	FechaUtimoLogin = NOW(), intentos = 0 WHERE email = ?';
+        const updateParams = [email];
+        await db.execute(sqlUpdate, updateParams);
+
         //  Enviar el token en la respuesta
         return res.json({ token });
       }
@@ -51,7 +65,7 @@ export const login = async (req, res) => {
   finally {
     // Liberar si quedó algun recursos en uso
   }
-  res.status(401).json({ error: "Credenciales inválidas" });
+  res.status(401).json({ error: "Credenciales inválidas !" });
 };
 
 function hashString( input ) {
