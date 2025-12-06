@@ -23,7 +23,10 @@ router.get("/productos/categoria", getAllProductosByCategoria);
 // Rutas de productos Privadas
 router.get("/productos/stock", auth, getAllProductosWithStock);
 router.post("/productos", auth, createProducto);
+// Privada y Admin
 router.delete("/productos/:id", auth, deleteProductoById);
+router.put("/productos/stock/:id", auth, updateAllProductosWithStock);
+router.put("/productos/precio/:id", auth, updateAllProductosWithStock);
 
 //router.post("/auth/login", loginusuario);
 

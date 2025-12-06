@@ -6,7 +6,7 @@ import crypto from "crypto";
       return crypto.createHash('sha256').update(input).digest('hex');
   }
 
-  console.log( hashString( "123456" ) );
+  console.log( hashString( "12345!" ) );
   /*
   async function fetchData() {
     const dbconnection = await connection();
