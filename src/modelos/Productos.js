@@ -2,13 +2,15 @@
 //import { query } from "../controladores/pool_mySQL.js/";
 
 import { db } from "./firebase.js";
-import { collection, getDocs } from "firebase/firestore";
-
+import { collection, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
+  
 const productosCollection = collection(db, "productos");
 
-export const getAllProducto = async (categoria, stock) => {
+export const getAllProductos = async () => {
+  console.log("getAllProducto called");
   try {
     const snapshot = await getDocs(productosCollection);
+    console.log("Snapshot obtenido:", snapshot);
     const productos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));  
     return productos;
   } catch (error) {
@@ -33,6 +35,123 @@ export const getAllProductosWithStock = async () => {
   finally {
   }
 }
+
+export const getProductoById = async (id) => {  
+  try {
+    const snapshot = await getDocs(productosCollection);
+    const productos = snapshot.docs 
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .find(producto => producto.id === id);
+    if ( !productos ) {
+      return {"error": "Producto no encontrado"};
+    }
+    return productos;
+  } catch ( error ) {
+    console.error('Error al obtener producto por ID desde Firestore:', error);  
+    throw error;
+  }   
+  finally {
+  }
+};
+
+export const getProductoByNombre = async ( nombre ) => {
+  try {
+    const snapshot = await getDocs(productosCollection);
+    const productos = snapshot.docs 
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .filter(producto => producto.nombre.startsWith(nombre));
+    if ( !productos ) {
+      return { "error": "No se encontraron productos"};
+    } 
+    return productos;
+  } catch ( error ) {
+    console.error('Error al obtener producto por nombre desde Firestore:', error);  
+    throw error;
+  } 
+  finally {
+  }
+};
+
+export const updateStockById = async (id, stock) => { 
+  try {
+    // Validaciones previas
+    if (!id || typeof id !== 'string') {
+      throw new Error("ID de producto inválido");
+    }
+    
+    if (typeof stock !== 'number' || stock < 0) {
+      throw new Error("El stock debe ser un número positivo");
+    }
+    
+    // Referencia al documento
+    const productoRef = doc(db, "productos", id);
+    
+    // Verificar que el documento existe antes de actualizar
+    const productoSnapshot = await getDoc(productoRef);
+    
+    if (!productoSnapshot.exists()) {
+      throw new Error(`Producto con ID ${id} no encontrado`);
+    }
+    
+    // Actualizar stock
+    await updateDoc(productoRef, {
+      stock: stock,
+      fechamodificacion: new Date()
+    });
+    
+    return { 
+      success: true, 
+      message: "Stock actualizado correctamente",
+      id: id,
+      stockAnterior: productoSnapshot.data().stock,
+      nuevoStock: stock
+    };
+    
+  } catch (error) {
+    console.error('Error al actualizar stock en Firestore:', error);
+    throw error;
+  }
+};
+
+export const deleteProductoById = async ( id ) => {
+  try {
+    const productRef = doc(productsCollection, id);
+    const snapshot = await getDoc(productRef);
+
+    if (!snapshot.exists()) {
+      return false;
+    }
+
+    await deleteDoc(productRef);
+    return true;
+  } catch ( error ) {
+    console.error('Error al eliminar producto en Firestore:', error);
+    throw error;
+  } 
+};
+
+export const createProducto = async ( nombre, precio, categorias, stock ) => {
+  try {
+    const nuevoProducto = {
+      nombre, 
+      precio,
+      categorias,
+      stock,
+      fechaalta: new Date(),
+      fechamodificacion: new Date(),
+      operadoralta: 1,
+      operadormodificacion: 1
+    };
+    const docRef = await addDoc(productosCollection, nuevoProducto);
+    return { id: docRef.id, ...nuevoProducto };
+  }
+  catch (error) {
+    console.error('Error al crear producto en Firestore:', error);
+    throw error;
+  }
+  finally {
+  }
+};
 
 /*
 export const getAllProductosOld = async (categoria, stock) => {
@@ -117,7 +236,8 @@ export const getAllProductos = async (categoria, stock) => {
 };
 */
 
-export const getProductoById = async (id) => {
+/*
+export const getProductoByIdOld = async (id) => {
   try {
     let sql = 'SELECT id, nombre, precio, stock, categorias FROM productos WHERE id = ?';
     const db = await connection();
@@ -132,8 +252,10 @@ export const getProductoById = async (id) => {
   finally {
   }
 };
+*/
 
-export const getProductoByNombre = async ( nombre ) => {
+/*
+export const getProductoByNombreOld = async ( nombre ) => {
   try {
     let sql = 'SELECT id, nombre, precio, stock, categorias FROM productos WHERE nombre LIKE ?%';
     const db = await connection();
@@ -149,7 +271,10 @@ export const getProductoByNombre = async ( nombre ) => {
   }
 };
 
-export const updateStockById = async ( id, stock ) => {
+*/
+
+/*
+export const updateStockByIdOld = async ( id, stock ) => {
   try {
     let sql = 'UPDATE productos SET stock = ? WHERE id = ?';
     const db = await connection();
@@ -164,8 +289,10 @@ export const updateStockById = async ( id, stock ) => {
   finally {
   }
 }
+*/
 
-export const deleteProductoById = async ( id ) => {
+/*
+export const deleteProductoByIdOld = async ( id ) => {
   try {
     let sql = 'DELETE FROM productos WHERE id = ?';
     const db = await connection();
@@ -180,8 +307,10 @@ export const deleteProductoById = async ( id ) => {
   finally {
   }
 } 
+*/
 
-export const createProducto = async ( nombre, precio, categorias, stock ) => {
+/*
+export const createProductoOld = async ( nombre, precio, categorias, stock ) => {
   try {
     let sql = 'INSERT INTO productos ( nombre, precio, categorias, stock ) VALUES ( ?, ?, ?, ? )';
     const db = await connection();
@@ -194,7 +323,9 @@ export const createProducto = async ( nombre, precio, categorias, stock ) => {
   }
 
 };
+*/
 
+/*
 export const getAllProductosByCategoria = async ( categoria ) => {  
   try {
     let sql = 'SELECT id, nombre, precio, stock, categorias FROM productos WHERE JSON_CONTAINS(categorias, ?)';
@@ -242,3 +373,4 @@ export const updateAllProductosWithPrecio = async ( id, precio ) => {
   finally {
   }
 };
+*/

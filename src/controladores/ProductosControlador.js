@@ -5,7 +5,8 @@ const cLargoMaxinoNombre = 40;
 
 export const getAllProductos = async ( req, res ) => {
   try {
-    const productos = await modelo.getAllProductos( '', false );
+    console.log("getAllProductos controlador llamado");
+    const productos = await modelo.getAllProductos();
     if ( !productos ) {
       return res.status(404).json({ error: "Productos no encontrados" });
     }
