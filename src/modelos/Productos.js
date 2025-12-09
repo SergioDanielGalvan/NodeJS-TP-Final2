@@ -1,6 +1,3 @@
-//import connection from "../controladores/conexion_db.js";
-//import { query } from "../controladores/pool_mySQL.js/";
-
 import { db } from "./firebase.js";
 import { collection, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
   
@@ -50,6 +47,21 @@ export const getProductoById = async (id) => {
     console.error('Error al obtener producto por ID desde Firestore:', error);  
     throw error;
   }   
+  finally {
+  }
+};
+
+export const getAllProductosById2  = async ( id ) => {
+  try {
+    // Quizás es más eficiente que traer toda la colección e iterar con Map
+    const productoRef = doc(productosCollection, id);
+    const snapshot = await getDoc(productoRef);
+    return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
+  }
+  catch ( error ) {
+    console.error('Error al obtener producto por ID desde Firestore:', error);  
+    throw error;
+  } 
   finally {
   }
 };
@@ -132,6 +144,8 @@ export const deleteProductoById = async ( id ) => {
 
 export const createProducto = async ( nombre, precio, categorias, stock ) => {
   try {
+    // En el ejemplo de la cátedra no se validan los datos antes de insertarlos
+    // Se pasa directo el objeto del Body y se lo inserta directo
     const nuevoProducto = {
       nombre, 
       precio,
@@ -152,6 +166,78 @@ export const createProducto = async ( nombre, precio, categorias, stock ) => {
   finally {
   }
 };
+
+export const updateProductoWithStock = async ( id, stock ) => {  
+  try {
+    // Validaciones previas
+    if (!id || typeof id !== 'string') {
+      throw new Error("ID de producto inválido");
+    }
+    if (typeof stock !== 'number' || stock < 0) {
+      throw new Error("El stock debe ser un número positivo");
+    }
+    // Referencia al documento
+    const productoRef = doc(db, "productos", id);
+    // Verificar que el documento existe antes de actualizar
+    const productoSnapshot = await getDoc(productoRef);
+    if (!productoSnapshot.exists()) {
+      throw new Error(`Producto con ID ${id} no encontrado`);
+    } 
+    // Actualizar stock
+    await updateDoc(productoRef, {
+      stock: stock,
+      fechamodificacion: new Date()
+    });
+    return { 
+      success: true, 
+      message: "Stock actualizado correctamente",
+      id: id,
+      stockAnterior: productoSnapshot.data().stock,
+      nuevoStock: stock
+    }; 
+  } catch (error) {
+    console.error('Error al actualizar stock en Firestore:', error);
+    throw error;
+  } 
+  finally {
+};
+
+export const updateProductoWithPrecio = async ( id, precio ) => {  
+  try {
+    // Validaciones previas
+
+    if (!id || typeof id !== 'string') {
+      throw new Error("ID de producto inválido");
+    }
+    if (typeof precio !== 'number' || precio < 0) {
+      throw new Error("El precio debe ser un número positivo");
+    }
+    // Referencia al documento
+    const productoRef = doc(db, "productos", id);
+    // Verificar que el documento existe antes de actualizar
+    const productoSnapshot = await getDoc(productoRef);
+    if (!productoSnapshot.exists()) {
+      throw new Error(`Producto con ID ${id} no encontrado`);
+    }
+    // Actualizar precio
+    await updateDoc(productoRef, {
+      precio: precio,
+      fechamodificacion: new Date()
+    });
+    return { 
+      success: true, 
+      message: "Precio actualizado correctamente",
+      id: id,
+      precioAnterior: productoSnapshot.data().precio,
+      nuevoPrecio: precio
+    }; 
+  } catch (error) {
+    console.error('Error al actualizar precio en Firestore:', error);
+    throw error;
+  }
+  finally {
+  } 
+}; // cierre
 
 /*
 export const getAllProductosOld = async (categoria, stock) => {

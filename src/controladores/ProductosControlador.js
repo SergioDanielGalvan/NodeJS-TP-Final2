@@ -150,11 +150,11 @@ export const createProducto = async ( req, res ) => {
   res.status(201).json( producto );
 };
 
-export const updateAllProductosWithStock = async ( req, res ) => {  
+export const updateProductoWithStock = async ( req, res ) => {  
   try {
     const { id } = req.params;
     const { stock } = req.body;
-    const result = await modelo.updateAllProductosWithStock( id, stock );
+    const result = await modelo.updateProductoWithStock( id, stock );
     res.status(200).json( result );
   } catch ( error ) {
     res.status(500).json({ error: "Error del servidor" });
@@ -163,11 +163,11 @@ export const updateAllProductosWithStock = async ( req, res ) => {
   }
 };
 
-export const updateAllProductosWithPrecio = async ( req, res ) => {  
+export const updateProductoWithPrecio = async ( req, res ) => {  
   try {
     const { id } = req.params;  
     const { precio } = req.body;
-    const result = await modelo.updateAllProductosWithPrecio( id, precio );
+    const result = await modelo.updateProductoWithPrecio( id, precio );
     res.status(200).json( result );
   } catch ( error ) {
     res.status(500).json({ error: "Error del servidor" });
