@@ -167,7 +167,7 @@ export const createProducto = async ( nombre, precio, categorias, stock ) => {
   }
 };
 
-export const updateProductoWithStock = async ( id, stock ) => {  
+export const updateProductoWithStock = async ( id, stock ) => {
   try {
     // Validaciones previas
     if (!id || typeof id !== 'string') {
@@ -200,6 +200,8 @@ export const updateProductoWithStock = async ( id, stock ) => {
     throw error;
   } 
   finally {
+    // cierre
+  }
 };
 
 export const updateProductoWithPrecio = async ( id, precio ) => {  
@@ -236,8 +238,9 @@ export const updateProductoWithPrecio = async ( id, precio ) => {
     throw error;
   }
   finally {
+    // cierre
   } 
-}; // cierre
+}; 
 
 /*
 export const getAllProductosOld = async (categoria, stock) => {
