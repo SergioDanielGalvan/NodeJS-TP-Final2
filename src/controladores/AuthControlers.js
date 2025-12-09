@@ -1,8 +1,11 @@
 // src/controladores/authControlers.js
 import jwt from "jsonwebtoken";
-import connection from "../controladores/conexion_db.js";
-import { query } from "../controladores/pool_mySQL.js/";
 import crypto from "crypto";
+
+import { db } from "../modelos/firebase.js";
+import { collection, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
+  
+const operadoresCollection = collection(db, "productos");
 
 /*
 {
@@ -17,17 +20,20 @@ export const login = async (req, res) => {
     return res.status(400).json({ error: "Faltan credenciales" });
   }
   try {
-    //let sql = 'SELECT email, password, intentos FROM operadores WHERE email = ? AND password = ?';
-    let sql = 'SELECT email, password, intentos FROM operadores WHERE email = ?';
-    const db = await connection();
-    const params = [email];
-    const [ rows ] = await db.execute(sql, params);
+    const snapshot = await getDocs(operadoresCollection);
     let usuario = null;
-    if ( !rows || rows.length == 0 ) {
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      if ( data.email === email ) {
+        // Dam! El forEach no tiene break !
+        usuario = data;
+      }
+    });
+
+    if ( usuario == null ) {
       return {"error": "Credenciales no encontradas"};
-    }
-    if ( rows.length == 1 ) {
-      usuario = rows[0]; 
+    };
+    if ( usuario.length == 1 ) {
       if ( usuario.email.length == 0 ) { 
         return res.status(401).json({ error: "Credenciales inválidas!" });
       }
@@ -36,10 +42,12 @@ export const login = async (req, res) => {
       }
       const hashedPassword = hashString( password );
       if ( hashedPassword !== usuario.password ) {
-        // Incrementar el contador de intentos fallidos 
-        let sqlUpdate = 'UPDATE operadores SET intentos = intentos + 1 WHERE email = ?';
-        const updateParams = [email];
-        await db.execute(sqlUpdate, updateParams);
+        // Incrementar el contador de intentos fallidos
+        usuario.intentos = ( usuario.intentos || 0 ) + 1;
+        await updateDoc(productoRef, {
+          intentos: usuario.intentos,
+          fechamodificacion: new Date()
+        });
         return res.status(401).json({ error: "Credenciales inválidas!" });
       }
 
@@ -49,9 +57,11 @@ export const login = async (req, res) => {
           expiresIn: process.env.JWT_TIEMPO_EXPIRACION || "1h",
         });
         // Set de campos en la tabla operadores
-        let sqlUpdate = 'UPDATE operadores SET 	FechaUtimoLogin = NOW(), intentos = 0 WHERE email = ?';
-        const updateParams = [email];
-        await db.execute(sqlUpdate, updateParams);
+        usuario.intentos = ( usuario.intentos || 0 ) + 1;
+        await updateDoc(productoRef, {
+          intentos: 0,
+          FechaUtimoLogin: new Date()
+        });
 
         //  Enviar el token en la respuesta
         return res.json({ token });

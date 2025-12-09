@@ -27,7 +27,8 @@ export const getOperadorById = async ( id ) => {
 };
 
 export const getOperadorByEmail = async ( email ) => {
-    try {   
+    try {
+        
         if ( !operador ) {
             return { "error": "Operador no encontrado"};
         }
