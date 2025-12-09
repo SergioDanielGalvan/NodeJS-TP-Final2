@@ -19,5 +19,6 @@
     "firebase": "^12.6.0",
     "jsonwebtoken": "^9.0.2",
     "iconv-lite": "^0.7.0"
-  }
+  },
+  "engines": { "node": "24.x" } 
 }
