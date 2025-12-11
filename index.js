@@ -6,6 +6,7 @@ import authRouter from "./src/rutas/authRouter.js";
 // import { auth } from "./src/middlewares/auth.middleware.js";
 // import bodyParser from 'body-parser';
 
+const path = require('path'); // Para manejar rutas de archivos
 const app = express();
 
 /*
@@ -28,6 +29,13 @@ app.use("/auth", authRouter);
 
 // Rutas de productos (algunas públicas, otras protegidas)
 app.use( "/api", productosRouter);
+
+app.get('/?', (req, res) => {
+    res.sendFile( path.join(__dirname, '../vistas', 'help.html'));
+});
+app.get('/help', (req, res) => {
+    res.sendFile( path.join(__dirname, '../vistas', 'help.html'));
+});
 
 app.use((req, res, next) => {
   res.status(404).json({ error: "Not Found" });
