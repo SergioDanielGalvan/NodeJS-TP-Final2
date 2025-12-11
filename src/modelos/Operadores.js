@@ -43,7 +43,7 @@ export const getAllOperadoresActivos = async () => {
 export const getOperadorById = async ( id ) => {
     try {
         const snapshot = await getDocs(operadoresCollection);
-        const operadores = snapshot.docs 
+        const operador = snapshot.docs 
             .map(doc => ({ id: doc.id, ...doc.data() }))
             .find(operador => operadores.id === id);
         if ( !operador ) {
@@ -71,7 +71,8 @@ export const getOperadorByEmail = async ( email ) => {
         return operadores;
     }
     catch ( error ) {
-        console.error(error);
+        console.error('Error al buscar Operadores en Firestore:', error);
+        throw error;
     }
     finally {
     }   
@@ -90,7 +91,8 @@ export const createOperador = async ( operadorData ) => {
         return { id: docRef.id, ...nuevoOperador };
     }
     catch ( error ) {
-        console.error(error);
+        console.error('Error al intentar crear Operador en Firestore:', error);
+        throw error;
     }
     finally {
     }
@@ -114,7 +116,8 @@ export const deleteOperadorByEmail = async ( email ) => {
             return result;
         }
     catch ( error ) {
-        console.error(error);
+        console.error('Error al eliminar Operador en Firestore:', error);
+        throw error;
     }
     finally {
     }   
@@ -193,7 +196,7 @@ export const updateOperadorById = async ( id, operadorData ) => {
     }   
 };
 
-export const resetIntentos = async ( id ) => {
+export const resetIntentosByID = async ( id ) => {
     try {
         const operadorRef = doc(operadoresCollection, id);
         const snapshot = await getDoc(operadorRef);

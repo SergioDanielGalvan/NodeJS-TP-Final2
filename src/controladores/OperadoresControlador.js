@@ -1,4 +1,5 @@
 // src/controladores/OperadoresControlador.js
+import e from "express";
 import * as modelo from "../modelos/Operadores.js";
 
 export const getAllOperadores = async ( req, res ) => {
@@ -119,6 +120,22 @@ export const updateOperadorById = async ( req, res ) => {
             return res.status(404).json({ error: "Operador no encontrado" });
         }
         res.status(200).json({ message: "Operador actualizado correctamente" });
+    }
+    catch ( error ) {
+        res.status(500).json({ error: "Error del servidor" });
+    }
+    finally {
+    };
+};
+
+export const resetIntentosByID = async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const result = await modelo.resetIntentos( id );
+        if ( result.affectedRows === 0 ) {
+            return res.status(404).json({ error: "Operador no encontrado" });
+        }
+        res.status(200).json({ message: "Intentos reseteados correctamente" });
     }
     catch ( error ) {
         res.status(500).json({ error: "Error del servidor" });

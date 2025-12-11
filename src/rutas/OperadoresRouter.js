@@ -12,7 +12,8 @@ import {
     deleteOperadorByEmail,
     deleteOperadorById,
     updateOperadorByEmail,
-    updateOperadorById
+    updateOperadorById,
+    resetIntentosByID
 } from "../controladores/OperadoresControlador.js"; 
 
 // Rutas de operadores públicas
@@ -26,5 +27,6 @@ router.post("/operadores/email/:email", auth, updateOperadorByEmail);
 router.post("/operadores/:id", auth, updateOperadorById);
 router.delete("/operadores/email/:email", auth, deleteOperadorByEmail);
 router.delete("/operadores/:id", auth, deleteOperadorById);
+router.patch("/operadores/reset/:id", auth, resetIntentosByID);
 
 export default router;
