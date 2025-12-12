@@ -73,7 +73,7 @@ export const login = async (req, res) => {
       throw error;
   }
   finally {
-    // Liberar si quedó algun recursos en uso
+    // Liberar si quedó algún recursos en uso
   }
   res.status(401).json({ error: "Credenciales inválidas !" });
 };

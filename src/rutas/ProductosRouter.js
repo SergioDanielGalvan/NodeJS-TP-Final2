@@ -30,6 +30,6 @@ router.delete("/productos/:id", auth, deleteProductoById);
 router.put("/productos/stock/:id", auth, updateProductoWithStock);
 router.put("/productos/precio/:id", auth, updateProductoWithPrecio);
 
-//router.post("/auth/login", loginusuario);
+// router.post("/auth/login", loginusuario);
 
 export default router;
