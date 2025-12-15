@@ -3,8 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import productosRouter from "./src/rutas/ProductosRouter.js";
 import authRouter from "./src/rutas/authRouter.js";
-// import { auth } from "./src/middlewares/auth.middleware.js";
-// import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -36,9 +34,7 @@ app.use("/auth", authRouter);
 app.use( "/api", productosRouter);
 
 app.get( '/help', (req, res) => {
-  
   const helpPath = path.join(__dirname, "/src/vistas/", 'ayuda.html');
-  console.log( helpPath );
   res.sendFile(helpPath);
 } );
 

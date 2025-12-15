@@ -1,0 +1,35 @@
+E:\Curso TSDS\Back End\TP2\.env
+E:\Curso TSDS\Back End\TP2\.env-example
+E:\Curso TSDS\Back End\TP2\.gitignore
+E:\Curso TSDS\Back End\TP2\Ejercicio - Clase 15 - Node .JS.pdf
+E:\Curso TSDS\Back End\TP2\index.js
+E:\Curso TSDS\Back End\TP2\NodeJS dependencias.txt
+E:\Curso TSDS\Back End\TP2\package-lock.json
+E:\Curso TSDS\Back End\TP2\package.json
+E:\Curso TSDS\Back End\TP2\README.md
+E:\Curso TSDS\Back End\TP2\src
+E:\Curso TSDS\Back End\TP2\start.bat
+E:\Curso TSDS\Back End\TP2\vercel.json
+E:\Curso TSDS\Back End\TP2\src\middlewares
+E:\Curso TSDS\Back End\TP2\src\middlewares\auth.middleware.js
+E:\Curso TSDS\Back End\TP2\src\servicios
+E:\Curso TSDS\Back End\TP2\src\vistas
+E:\Curso TSDS\Back End\TP2\src\vistas\ayuda.html
+E:\Curso TSDS\Back End\TP2\src\vistas\help.html
+E:\Curso TSDS\Back End\TP2\src\vistas\css
+E:\Curso TSDS\Back End\TP2\src\vistas\css\estilos.css
+E:\Curso TSDS\Back End\TP2\src\controladores
+E:\Curso TSDS\Back End\TP2\src\controladores\AuthControlers.js
+E:\Curso TSDS\Back End\TP2\src\controladores\OperadoresControlador.js
+E:\Curso TSDS\Back End\TP2\src\controladores\ProductosControlador.js
+E:\Curso TSDS\Back End\TP2\src\modelos
+E:\Curso TSDS\Back End\TP2\src\modelos\firebase.js
+E:\Curso TSDS\Back End\TP2\src\modelos\Operadores.js
+E:\Curso TSDS\Back End\TP2\src\modelos\Productos.js
+E:\Curso TSDS\Back End\TP2\src\modelos\Productos.json
+E:\Curso TSDS\Back End\TP2\src\rutas\authRouter.js
+E:\Curso TSDS\Back End\TP2\src\rutas
+E:\Curso TSDS\Back End\TP2\src\rutas\OperadoresRouter.js
+E:\Curso TSDS\Back End\TP2\src\rutas\ProductosRouter.js
+E:\Curso TSDS\Back End\TP2\utiles
+E:\Curso TSDS\Back End\TP2\utiles\token_generator.js
