@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayuda - Gestión de Operadores</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        /* Estilos adicionales específicos para la ayuda */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .nav {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .nav ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .nav a {
+            color: var(--dark-color);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin: 25px 0 15px 0;
+        }
+        
+        .endpoint-card {
+            background: var(--light-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .endpoint-method {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        
+        .method-get { background-color: var(--success-color); }
+        .method-post { background-color: var(--secondary-color); }
+        .method-put { background-color: var(--warning-color); }
+        .method-patch { background-color: #9b59b6; }
+        .method-delete { background-color: var(--danger-color); }
+        
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .param-table th, .param-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .param-table th {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        
+        .param-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning {
+            background-color: #ffeaea;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .endpoint-url {
+                font-size: 0.9rem;
+                overflow-x: auto;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <header class="header">
+            <h1>📋 Ayuda - Gestión de Operadores</h1>
+            <p>Documentación completa de la API para gestión de operadores del sistema</p>
+            <p><strong>Base URL:</strong> nodejs-tp-final2-4xldcgcji-sergio-galvans-projects-870a1523.vercel.app/operdores</p>
+        </header>
+        
+        <!-- Navegación -->
+        <nav class="nav">
+            <ul>
+                <li><a href="#introduccion" class="active">Introducción</a></li>
+                <li><a href="#autenticacion">Autenticación</a></li>
+                <li><a href="#endpoints-publicos">Endpoints Públicos</a></li>
+                <li><a href="#endpoints-privados">Endpoints Privados</a></li>
+                <li><a href="#ejemplos">Ejemplos Prácticos</a></li>
+                <li><a href="#errores">Códigos de Error</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Contenido principal -->
+        <main class="content">
+            <!-- Sección: Introducción -->
+            <section id="introduccion" class="section">
+                <h2>📚 Introducción</h2>
+                <p>Esta documentación describe todos los endpoints disponibles para la gestión de operadores en el sistema. Los operadores son usuarios administrativos con diferentes niveles de acceso.</p>
+                
+                <div class="note">
+                    <p><strong>Nota importante:</strong> Algunos endpoints requieren autenticación mediante token JWT. Estos están marcados como <strong>🔒 Privados</strong>.</p>
+                </div>
+                
+                <h3>Estructura de un Operador</h3>
+                <div class="code-block">
+{
+    "idoperador": 1,
+    "nombre": "Admin",
+    "email": "admin@sistema.com",
+    "password": "hash_sha256",
+    "tipooperador": 1,
+    "intentos": 0,
+    "fechaultimologin": "2025-12-01T19:06:29-03:00"
+}
+                </div>
+                
+                <h3>Tipos de Operador</h3>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Tipo 1:</strong> Administrador (acceso completo)</li>
+                    <li><strong>Tipo 2:</strong> Operador normal (acceso limitado)</li>
+                </ul>
+            </section>
+            
+            <!-- Sección: Autenticación -->
+            <section id="autenticacion" class="section">
+                <h2>🔑 Autenticación</h2>
+                <p>Para acceder a los endpoints privados, primero debes obtener un token JWT mediante el login.</p>
+                
+                <div class="endpoint-card">
+                    <div>
+                        <span class="endpoint-method method-post">POST</span>
+                        <strong>Login de Operador</strong>
+                    </div>
+                    <div class="endpoint-url">/auth/login</div>
+                    
+                    <h4>Body Request (JSON):</h4>
+                    <div class="code-block">
+{
+    "email": "operador@ejemplo.com",
+    "password": "contraseña123"
+}
+                    </div>
+                    
+                    <h4>Response Exitosa (200):</h4>
+                    <div class="code-block">
+{
+    "success": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "operador": {
+        "idoperador": 1,
+        "nombre": "Admin",
+        "email": "admin@sistema.com",
+        "tipooperador": 1
+    }
+}
+                    </div>
+                    
+                    <h4>Uso del Token:</h4>
+                    <p>Incluir en el header de las solicitudes:</p>
+                    <div class="code-block">
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección: Endpoints Públicos -->
+            <section id="endpoints-publicos" class="section">
+                <h2>🌐 Endpoints Públicos (Sin Autenticación)</h2>
+                
+                <!-- GET /operadores -->
+                <div class="endpoint-card">
+                    <div>
+                        <span class="endpoint-method method-get">GET</span>
+                        <strong>Obtener todos los operadores</strong>
+                    </div>
+                    <div class="endpoint-url">/api/operadores</div>
+                    <p>Retorna una lista de todos los operadores registrados en el sistema.</p>
+                    
+                    <h4>Response (200):</h4>
+                    <div class="code-block">
+{
+    "success": true,
+    "count": 3,
+    "data": [
+        {
+            "idoperador": 1,
+            "nombre": "Admin",
+            "email": "admin@sistema.com",
+            "tipooperador": 1
+        },
+        // ... más operadores
+    ]
+}
+                    </div>
+                </div>
+                
+                <!-- GET /operadores/:id -->
+                <div class="endpoint-card">
+                    <div>
+                        <span class="endpoint-method method-get">GET</span>
+                        <strong>Obtener operador por ID</strong>
+                    </div>
+                    <div class="endpoint-url">/api/operadores/:id</div>
+                    <p>Retorna un operador específico por su ID numérico.</p>
+                    
+                    <h4>Parámetros:</h4>
+                    <table class="param-table">
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                        </tr>
+                        <tr>
+                            <td>id</td>
+                            <td>number</td>
+                            <td>ID numérico del operador</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>Ejemplo:</h4>
+                    <div class="code-block">
+GET /api/operadores/1
+                    </div>
+                </div>
+                
+                <!-- GET /operadores/email/:email -->
+                <div class="endpoint-card">
+                    <div>
+                        <span class="endpoint-method method-get">GET</span>
+                        <strong>Obtener operador por email</strong>
+                    </div>
+                    <div class="endpoint-url">/api/operadores/email/:email</div>
+                    <p>Retorna un operador específico por su dirección de email.</p>
+                    
+                    <h4>Ejemplo:</h4>
+                    <div class="code-block">
+GET /api/operadores/email/admin@sistema.com
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección: Endpoints Privados -->
+            <section id="endpoints-privados" class="section">
+                <h2>🔒 Endpoints Privados (Requieren Autenticación)</h2>
+                <div class="warning">
+                    <p><strong>⚠️ Importante:</strong> Todos estos endpoints requieren el header <code>Authorization: Bearer {token}</code></p>
+                </div>
+                
+                <!-- POST /operadores -->
+                <div class="endpoint-card">
+                    <div>
+                        <span class="endpoint-method method-post">POST</span>
+                        <strong>Crear nuevo operador</strong>
+                        <span style="color: var(--danger-color); margin-left: 10px;">Solo Admin</span>
+                    </div>
+                    <div class="endpoint-url">/api/operadores</div>
+                    
+                    <h4>Body Request (JSON):</h4>
+                    <div class="code-block">
+{
+    "nombre": "Nuevo Operador",
+    "email": "nuevo@ejemplo.com",
+    "password": "contraseñaSegura123",
+    "tipooperador": 2
+}
+                    </div>
+                    
+                    <h4>Validaciones:</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>Email único en el sistema</li>
+                        <li>Password mínimo 8 caracteres</li>
+                        <li>tipooperador entre 1-2</li>
+                    </ul>
+                </div>
+                
+                <!-- POST /operadores/email/:email -->
+                <div class="endpoint-card">
+                    <div>
+                        <span class="endpoint-method method-post">POST</span>
+                        <strong>Actualizar operador por email</strong>
+                    </div>
+                    <div class="endpoint-url">/api/operadores/email/:email</div>
+                    <p>Actualiza los datos de un operador identificado por su email.</p>
+                    
+                    <h4>Body Request (JSON):</h4>
+                    <div class="code-block">
+{
+    "nombre": "Nombre Actualizado",
+    "tipooperador": 2
+}
+                    </div>
+                </div>
+                
+                <!-- DELETE /operadores/:id -->
+                <div class="endpoint-card">
+                    <div>
+                        <span class="endpoint-method method-delete">DELETE</span>
+                        <strong>Eliminar operador por ID</strong>
+                        <span style="color: var(--danger-color); margin-left: 10px;">Solo Admin</span>
+                    </div>
+                    <div class="endpoint-url">/api/operadores/:id</div>
+                    <p>Elimina permanentemente un operador del sistema.</p>
+                    
+                    <div class="warning">
+                        <p><strong>¡Atención!</strong> Esta acción no se puede deshacer.</p>
+                    </div>
+                </div>
+                
+                <!-- PATCH /operadores/reset/:id -->
+                <div class="endpoint-card">
+                    <div>
+                        <span class="endpoint-method method-patch">PATCH</span>
+                        <strong>Resetear intentos de login</strong>
+                        <span style="color: var(--danger-color); margin-left: 10px;">Solo Admin</span>
+                    </div>
+                    <div class="endpoint-url">/api/operadores/reset/:id</div>
+                    <p>Reinicia a cero el contador de intentos fallidos de login de un operador.</p>
+                    
+                    <h4>Use Case:</h4>
+                    <p>Cuando un operador se bloquea por múltiples intentos fallidos de login.</p>
+                </div>
+            </section>
+            
+            <!-- Sección: Ejemplos Prácticos -->
+            <section id="ejemplos" class="section">
+                <h2>💡 Ejemplos Prácticos</h2>
+                
+                <h3>Ejemplo 1: Crear y autenticar un operador</h3>
+                <div class="code-block">
+// 1. Crear operador (como admin)
+POST /api/operadores
+Headers: { "Authorization": "Bearer {admin_token}" }
+Body: {
+    "nombre": "Carlos López",
+    "email": "carlos@empresa.com",
+    "password": "MiPass123",
+    "tipooperador": 2
+}
+
+// 2. Login del nuevo operador
+POST /auth/login
+Body: {
+    "email": "carlos@empresa.com",
+    "password": "MiPass123"
+}
+
+// 3. Usar el token recibido para operaciones
+GET /api/productos/stock
+Headers: { "Authorization": "Bearer {token_carlos}" }
+                </div>
+                
+                <h3>Ejemplo 2: Script en JavaScript (Fetch API)</h3>
+                <div class="code-block">
+// Obtener todos los operadores
+async function getOperadores() {
+    try {
+        const response = await fetch('https://tudominio.com/api/operadores');
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('Operadores:', data.data);
+            return data.data;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Crear un operador (con autenticación)
+async function crearOperador(operadorData, token) {
+    const response = await fetch('https://tudominio.com/api/operadores', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(operadorData)
+    });
+    
+    return await response.json();
+}
+                </div>
+            </section>
+            
+            <!-- Sección: Códigos de Error -->
+            <section id="errores" class="section">
+                <h2>🚫 Códigos de Error Comunes</h2>
+                
+                <table class="param-table">
+                    <tr>
+                        <th>Código</th>
+                        <th>Mensaje</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>400</td>
+                        <td>Bad Request</td>
+                        <td>Datos de entrada inválidos o faltantes</td>
+                    </tr>
+                    <tr>
+                        <td>401</td>
+                        <td>Unauthorized</td>
+                        <td>Token no proporcionado o inválido</td>
+                    </tr>
+                    <tr>
+                        <td>403</td>
+                        <td>Forbidden</td>
+                        <td>No tienes permisos para esta acción</td>
+                    </tr>
+                    <tr>
+                        <td>404</td>
+                        <td>Not Found</td>
+                        <td>Operador no encontrado</td>
+                    </tr>
+                    <tr>
+                        <td>409</td>
+                        <td>Conflict</td>
+                        <td>Email ya registrado en el sistema</td>
+                    </tr>
+                    <tr>
+                        <td>429</td>
+                        <td>Too Many Requests</td>
+                        <td>Demasiados intentos de login fallidos</td>
+                    </tr>
+                    <tr>
+                        <td>500</td>
+                        <td>Internal Server Error</td>
+                        <td>Error interno del servidor</td>
+                    </tr>
+                </table>
+                
+                <div class="note" style="margin-top: 20px;">
+                    <p><strong>Tip:</strong> Todos los errores siguen el formato:</p>
+                    <div class="code-block">
+{
+    "success": false,
+    "error": {
+        "code": 404,
+        "message": "Operador no encontrado",
+        "details": "No existe operador con ID 999"
+    }
+}
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Pie de página -->
+        <footer class="footer">
+            <p>📖 Documentación de la API - Sistema de Gestión de Operadores</p>
+            <p>© 2025 - Versión 1.0.0 | Última actualización: Diciembre 2025</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                <a href="ayuda.html" style="color: #3498db; margin: 0 10px;">Ayuda General</a> | 
+                <a href="help.html" style="color: #3498db; margin: 0 10px;">English Version</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Smooth scroll para los enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Actualizar clase activa en navegación
+                    document.querySelectorAll('.nav a').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // Resaltar sintaxis de código
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code-block');
+            codeBlocks.forEach(block => {
+                // Simple syntax highlighting para JSON
+                let code = block.textContent;
+                code = code.replace(/(".*?"):/g, '<span style="color: #ff79c6;">$1</span>:');
+                code = code.replace(/: ("(.*?)")/g, ': <span style="color: #8be9fd;">"$2"</span>');
+                code = code.replace(/: ([0-9]+)/g, ': <span style="color: #bd93f9;">$1</span>');
+                code = code.replace(/: (true|false)/g, ': <span style="color: #bd93f9;">$1</span>');
+                block.innerHTML = code;
+            });
+        });
+    </script>
+</body>
+</html>

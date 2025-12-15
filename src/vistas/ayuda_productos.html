@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayuda - Gestión de Productos</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        /* Estilos específicos para la ayuda de productos */
+        :root {
+            --primary-color: #27ae60;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --info-color: #3498db;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #229954);
+            color: white;
+            padding: 35px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: "🛒";
+            font-size: 120px;
+            position: absolute;
+            right: 50px;
+            top: 30px;
+            opacity: 0.15;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .nav {
+            background-color: white;
+            padding: 0;
+            border-bottom: 2px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0;
+            margin: 0;
+        }
+        
+        .nav li {
+            flex: 1;
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .nav a {
+            color: var(--dark-color);
+            text-decoration: none;
+            padding: 18px 20px;
+            display: block;
+            transition: all 0.3s;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            position: relative;
+        }
+        
+        .nav a:hover {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+        
+        .nav a.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            background: linear-gradient(to bottom, #f8f9fa, white);
+        }
+        
+        .nav a::after {
+            content: "";
+            position: absolute;
+            width: 1px;
+            height: 20px;
+            background: #e0e0e0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav li:last-child a::after {
+            display: none;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary-color);
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h2::before {
+            content: "📦";
+            font-size: 1.5rem;
+        }
+        
+        h3 {
+            color: var(--dark-color);
+            margin: 30px 0 20px 0;
+            font-size: 1.5rem;
+            padding-left: 15px;
+            border-left: 4px solid var(--info-color);
+        }
+        
+        .endpoint-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .endpoint-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .endpoint-method {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            min-width: 100px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .method-get { 
+            background: linear-gradient(135deg, var(--primary-color), #229954);
+            border-left: 5px solid #1e8449;
+        }
+        
+        .method-post { 
+            background: linear-gradient(135deg, var(--info-color), #2980b9);
+            border-left: 5px solid #21618c;
+        }
+        
+        .method-put { 
+            background: linear-gradient(135deg, var(--warning-color), #d68910);
+            border-left: 5px solid #b9770e;
+        }
+        
+        .method-delete { 
+            background: linear-gradient(135deg, var(--accent-color), #c0392b);
+            border-left: 5px solid #a93226;
+        }
+        
+        .endpoint-title {
+            font-size: 1.4rem;
+            color: var(--dark-color);
+            flex: 1;
+        }
+        
+        .access-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .public { background-color: #d5f4e6; color: #27ae60; }
+        .private { background-color: #e8f4fc; color: #3498db; }
+        .admin { background-color: #fdebd0; color: #e67e22; }
+        
+        .endpoint-url {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 12px 20px;
+            border-radius: 6px;
+            display: block;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            border-left: 5px solid var(--primary-color);
+            overflow-x: auto;
+        }
+        
+        .endpoint-description {
+            margin: 15px 0;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .code-block {
+            background: #1a1a1a;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .param-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .param-table th {
+            background: linear-gradient(135deg, var(--primary-color), #229954);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .param-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .param-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .param-table tr:hover {
+            background-color: #e8f4fc;
+        }
+        
+        .type-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: monospace;
+        }
+        
+        .type-string { background: #ffeaa7; color: #d35400; }
+        .type-number { background: #a29bfe; color: #2d3436; }
+        .type-array { background: #81ecec; color: #006266; }
+        .type-timestamp { background: #fab1a0; color: #b33939; }
+        .type-boolean { background: #55efc4; color: #006266; }
+        
+        .note {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-left: 5px solid var(--info-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .success {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--dark-color), #34495e);
+            color: white;
+            margin-top: 50px;
+        }
+        
+        .footer-links {
+            margin-top: 15px;
+        }
+        
+        .footer-links a {
+            color: #3498db;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #2ecc71;
+            text-decoration: underline;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+        
+        .action-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav ul {
+                flex-direction: column;
+            }
+            
+            .nav li {
+                min-width: 100%;
+            }
+            
+            .nav a::after {
+                display: none;
+            }
+            
+            .header::before {
+                display: none;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <header class="header">
+            <h1>🛍️ Ayuda - Gestión de Productos</h1>
+            <p>Documentación completa de la API para gestión de productos del catálogo</p>
+            <p><strong>Base URL:</strong> https://nodejs-tp-final2-4xldcgcji-sergio-galvans-projects-870a1523.vercel.app/api</p>
+            <div class="badge">📊 Stock Management | 💰 Pricing | 📦 Categories</div>
+        </header>
+        
+        <!-- Navegación -->
+        <nav class="nav">
+            <ul>
+                <li><a href="#introduccion" class="active">📚 Introducción</a></li>
+                <li><a href="#estructura">🏗️ Estructura</a></li>
+                <li><a href="#endpoints-publicos">🌐 Públicos</a></li>
+                <li><a href="#endpoints-privados">🔒 Privados</a></li>
+                <li><a href="#stock-precios">📈 Stock/Precios</a></li>
+                <li><a href="#ejemplos">💡 Ejemplos</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Contenido principal -->
+        <main class="content">
+            <!-- Sección: Introducción -->
+            <section id="introduccion" class="section">
+                <h2>📚 Introducción al Sistema de Productos</h2>
+                <p>Esta API proporciona acceso completo a la gestión del catálogo de productos. Incluye funcionalidades para consulta, creación, actualización y eliminación de productos, con control de stock y precios.</p>
+                
+                <div class="note">
+                    <p><strong>💡 Información importante:</strong> Los endpoints están divididos en públicos (acceso libre) y privados (requieren autenticación). Algunas operaciones solo están disponibles para administradores.</p>
+                </div>
+                
+                <div class="quick-actions">
+                    <div class="action-card">
+                        <div class="action-icon">📋</div>
+                        <h3>Listado Completo</h3>
+                        <p>Consulta todos los productos disponibles</p>
+                        <code>GET /productos</code>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-icon">🔍</div>
+                        <h3>Búsqueda Avanzada</h3>
+                        <p>Filtra por ID, nombre o categoría</p>
+                        <code>GET /productos/nombre/:nombre</code>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-icon">➕</div>
+                        <h3>Nuevo Producto</h3>
+                        <p>Crea nuevos productos en el catálogo</p>
+                        <code>POST /productos</code>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección: Estructura de Datos -->
+            <section id="estructura" class="section">
+                <h2>🏗️ Estructura de un Producto</h2>
+                <p>Los productos siguen una estructura JSON específica con los siguientes campos:</p>
+                
+                <div class="code-block">
+{
+    "idproducto": 9,
+    "nombre": "Micrófono Omnidireccional JBL Bluetooth",
+    "categorias": ["Tecnología", "Audio", "Accesorios"],
+    "precio": 123400,
+    "stock": 23,
+    "operadoralta": 1,
+    "operadormodificacion": 0,
+    "fechaalta": "2025-12-08T21:18:30-03:00",
+    "fechamodificacion": "2025-12-10T16:19:01-03:00"
+}
+                </div>
+                
+                <div class="param-section">
+                    <h3>📋 Descripción de Campos</h3>
+                    <table class="param-table">
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                        <tr>
+                            <td><strong>idproducto</strong></td>
+                            <td><span class="type-badge type-number">number</span></td>
+                            <td>Identificador único del producto</td>
+                            <td><code>9</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>nombre</strong></td>
+                            <td><span class="type-badge type-string">string</span></td>
+                            <td>Nombre del producto (máx. 255 chars)</td>
+                            <td><code>"Micrófono JBL"</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>categorias</strong></td>
+                            <td><span class="type-badge type-array">array[string]</span></td>
+                            <td>Categorías del producto</td>
+                            <td><code>["Tecnología", "Audio"]</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>precio</strong></td>
+                            <td><span class="type-badge type-number">number</span></td>
+                            <td>Precio en centavos (sin decimales)</td>
+                            <td><code>123400</code> = $1,234.00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>stock</strong></td>
+                            <td><span class="type-badge type-number">number</span></td>
+                            <td>Cantidad disponible (≥ 0)</td>
+                            <td><code>23</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>operadoralta</strong></td>
+                            <td><span class="type-badge type-number">number</span></td>
+                            <td>ID del operador que creó el registro</td>
+                            <td><code>1</code> (Admin)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>fechaalta</strong></td>
+                            <td><span class="type-badge type-timestamp">timestamp</span></td>
+                            <td>Fecha de creación (automática)</td>
+                            <td><code>2025-12-08T21:18:30-03:00</code></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="warning">
+                    <p><strong>⚠️ Nota sobre precios:</strong> Los precios se almacenan en <strong>centavos</strong> (o la unidad mínima de tu moneda). Para mostrar al usuario, dividir por 100.</p>
+                    <p><code>123400 → $1,234.00</code></p>
+                </div>
+            </section>
+            
+            <!-- Sección: Endpoints Públicos -->
+            <section id="endpoints-publicos" class="section">
+                <h2>🌐 Endpoints Públicos</h2>
+                <p>Estos endpoints están disponibles sin necesidad de autenticación.</p>
+                
+                <!-- GET /productos -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-get">GET</span>
+                        <span class="endpoint-title">Obtener todos los productos</span>
+                        <span class="access-badge public">Público</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos</div>
+                    <p class="endpoint-description">Retorna una lista paginada de todos los productos disponibles en el catálogo.</p>
+                    
+                    <h4>📥 Parámetros Query (opcionales):</h4>
+                    <table class="param-table">
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Valor por defecto</th>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>number</td>
+                            <td>Número de página</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>limit</td>
+                            <td>number</td>
+                            <td>Productos por página</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>sort</td>
+                            <td>string</td>
+                            <td>Campo para ordenar (nombre, precio, fechaaalta)</td>
+                            <td>fechaalta</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>✅ Response (200):</h4>
+                    <div class="code-block">
+{
+    "success": true,
+    "count": 150,
+    "page": 1,
+    "totalPages": 8,
+    "data": [
+        {
+            "idproducto": 1,
+            "nombre": "Producto Ejemplo",
+            "categorias": ["Categoría 1"],
+            "precio": 9999,
+            "stock": 10
+        },
+        // ... más productos
+    ]
+}
+                    </div>
+                </div>
+                
+                <!-- GET /productos/:id -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-get">GET</span>
+                        <span class="endpoint-title">Obtener producto por ID</span>
+                        <span class="access-badge public">Público</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos/:id</div>
+                    <p class="endpoint-description">Retorna los detalles completos de un producto específico por su ID numérico.</p>
+                    
+                    <h4>📌 Parámetros de Ruta:</h4>
+                    <table class="param-table">
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                        </tr>
+                        <tr>
+                            <td>id</td>
+                            <td>number</td>
+                            <td>ID numérico del producto</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>🔍 Ejemplo:</h4>
+                    <div class="code-block">
+GET /api/productos/9
+
+Response:
+{
+    "success": true,
+    "data": {
+        "idproducto": 9,
+        "nombre": "Micrófono Omnidireccional JBL Bluetooth",
+        "categorias": ["Tecnología", "Audio", "Accesorios"],
+        "precio": 123400,
+        "stock": 23,
+        "operadoralta": 1,
+        "fechaalta": "2025-12-08T21:18:30-03:00"
+    }
+}
+                    </div>
+                </div>
+                
+                <!-- GET /productos/nombre/:nombre -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-get">GET</span>
+                        <span class="endpoint-title">Buscar producto por nombre</span>
+                        <span class="access-badge public">Público</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos/nombre/:nombre</div>
+                    <p class="endpoint-description">Búsqueda de productos por nombre (búsqueda parcial, case-insensitive).</p>
+                    
+                    <div class="note">
+                        <p><strong>🔎 Nota:</strong> Esta búsqueda es parcial. Ejemplo: buscar "micrófono" encontrará todos los productos que contengan esa palabra en su nombre.</p>
+                    </div>
+                </div>
+                
+                <!-- GET /productos/categoria -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-get">GET</span>
+                        <span class="endpoint-title">Filtrar productos por categoría</span>
+                        <span class="access-badge public">Público</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos/categoria?categoria=:categoria</div>
+                    <p class="endpoint-description">Filtra productos por categoría específica usando parámetros query.</p>
+                    
+                    <h4>🎯 Ejemplo:</h4>
+                    <div class="code-block">
+GET /api/productos/categoria?categoria=Tecnología
+
+GET /api/productos/categoria?categoria=Audio&categoria=Accesorios
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección: Endpoints Privados -->
+            <section id="endpoints-privados" class="section">
+                <h2>🔒 Endpoints Privados (Requieren Autenticación)</h2>
+                <div class="warning">
+                    <p><strong>🔐 Requerido:</strong> Todos estos endpoints requieren el header <code>Authorization: Bearer {token_jwt}</code></p>
+                    <p>Algunas operaciones adicionales requieren permisos de administrador.</p>
+                </div>
+                
+                <!-- GET /productos/stock -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-get">GET</span>
+                        <span class="endpoint-title">Obtener productos con información de stock</span>
+                        <span class="access-badge private">Privado</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos/stock</div>
+                    <p class="endpoint-description">Retorna productos incluyendo información detallada de stock (solo para usuarios autenticados).</p>
+                    
+                    <div class="note">
+                        <p><strong>📊 Diferencia con endpoint público:</strong> Este endpoint incluye campos adicionales como <code>stock</code> que no se muestran en los endpoints públicos por razones de seguridad comercial.</p>
+                    </div>
+                </div>
+                
+                <!-- POST /productos -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-post">POST</span>
+                        <span class="endpoint-title">Crear nuevo producto</span>
+                        <span class="access-badge private">Privado</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos</div>
+                    
+                    <h4>📤 Body Request (JSON):</h4>
+                    <div class="code-block">
+{
+    "nombre": "Nuevo Producto",
+    "categorias": ["Electrónica", "Novedades"],
+    "precio": 49999,
+    "stock": 50
+}
+                    </div>
+                    
+                    <h4>✅ Campos obligatorios:</h4>
+                    <ul style="margin-left: 25px; margin-top: 10px;">
+                        <li><code>nombre</code> - String, máximo 255 caracteres</li>
+                        <li><code>categorias</code> - Array de strings</li>
+                        <li><code>precio</code> - Número entero positivo</li>
+                        <li><code>stock</code> - Número entero ≥ 0</li>
+                    </ul>
+                    
+                    <h4>✅ Response (201):</h4>
+                    <div class="code-block">
+{
+    "success": true,
+    "message": "Producto creado exitosamente",
+    "data": {
+        "idproducto": 25,
+        "nombre": "Nuevo Producto",
+        "categorias": ["Electrónica", "Novedades"],
+        "precio": 49999,
+        "stock": 50,
+        "operadoralta": 1,
+        "fechaalta": "2025-12-15T10:30:00-03:00"
+    }
+}
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección: Gestión de Stock y Precios -->
+            <section id="stock-precios" class="section">
+                <h2>📈 Gestión de Stock y Precios</h2>
+                <p>Endpoints especializados para la gestión de inventario y precios.</p>
+                
+                <!-- PUT /productos/stock/:id -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-put">PUT</span>
+                        <span class="endpoint-title">Actualizar stock de producto</span>
+                        <span class="access-badge private">Privado</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos/stock/:id</div>
+                    <p class="endpoint-description">Actualiza el stock disponible de un producto específico.</p>
+                    
+                    <h4>📤 Body Request (JSON):</h4>
+                    <div class="code-block">
+{
+    "stock": 45,
+    "operadormodificacion": 1
+}
+                    </div>
+                    
+                    <h4>🎯 Use Cases:</h4>
+                    <ul style="margin-left: 25px;">
+                        <li>Ajuste de inventario físico</li>
+                        <li>Actualización después de ventas</li>
+                        <li>Corrección de errores de stock</li>
+                    </ul>
+                </div>
+                
+                <!-- PUT /productos/precio/:id -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-put">PUT</span>
+                        <span class="endpoint-title">Actualizar precio de producto</span>
+                        <span class="access-badge private">Privado</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos/precio/:id</div>
+                    <p class="endpoint-description">Modifica el precio de un producto existente.</p>
+                    
+                    <div class="warning">
+                        <p><strong>💰 Consideraciones:</strong> Los cambios de precio pueden afectar ventas en proceso. Considerar implementar validaciones adicionales.</p>
+                    </div>
+                    
+                    <h4>📤 Body Request (JSON):</h4>
+                    <div class="code-block">
+{
+    "precio": 109999,
+    "operadormodificacion": 1
+}
+                    </div>
+                </div>
+                
+                <!-- DELETE /productos/:id -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="endpoint-method method-delete">DELETE</span>
+                        <span class="endpoint-title">Eliminar producto</span>
+                        <span class="access-badge admin">Solo Admin</span>
+                    </div>
+                    <div class="endpoint-url">/api/productos/:id</div>
+                    <p class="endpoint-description">Elimina permanentemente un producto del catálogo.</p>
+                    
+                    <div class="warning">
+                        <p><strong>⚠️ ¡Atención! Esta acción no se puede deshacer.</strong> Considerar implementar borrado lógico (soft delete) en futuras versiones.</p>
+                    </div>
+                    
+                    <h4>✅ Response (200):</h4>
+                    <div class="code-block">
+{
+    "success": true,
+    "message": "Producto eliminado exitosamente",
+    "deletedId": 9
+}
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección: Ejemplos Prácticos -->
+            <section id="ejemplos" class="section">
+                <h2>💡 Ejemplos Prácticos</h2>
+                
+                <h3>Ejemplo 1: Flujo completo de gestión de productos</h3>
+                <div class="code-block">
+// 1. Login para obtener token
+POST /auth/login
+{
+    "email": "operador@empresa.com",
+    "password": "password123"
+}
+
+// Response: { "token": "eyJhbGciOiJIUzI1NiIs..." }
+
+// 2. Crear nuevo producto (con token)
+POST /api/productos
+Headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..." }
+{
+    "nombre": "Auriculares Inalámbricos Premium",
+    "categorias": ["Audio", "Tecnología", "Inalámbrico"],
+    "precio": 29999,
+    "stock": 100
+}
+
+// 3. Consultar productos con stock (privado)
+GET /api/productos/stock
+Headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..." }
+
+// 4. Actualizar stock después de venta
+PUT /api/productos/stock/25
+Headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..." }
+{
+    "stock": 85,
+    "operadormodificacion": 1
+}
+                </div>
+                
+                <h3>Ejemplo 2: Script Python para importar productos</h3>
+                <div class="code-block">
+import requests
+import json
+
+BASE_URL = "https://tudominio.com/api"
+TOKEN = "tu_token_jwt_aqui"
+
+def crear_producto(producto_data):
+    headers = {
+        "Authorization": f"Bearer {TOKEN}",
+        "Content-Type": "application/json"
+    }
+    
+    response = requests.post(
+        f"{BASE_URL}/productos",
+        headers=headers,
+        json=producto_data
+    )
+    
+    if response.status_code == 201:
+        print(f"✅ Producto creado: {producto_data['nombre']}")
+        return response.json()
+    else:
+        print(f"❌ Error: {response.status_code}")
+        print(response.json())
+        return None
+
+# Ejemplo de uso
+productos_nuevos = [
+    {
+        "nombre": "Teclado Mecánico RGB",
+        "categorias": ["Tecnología", "Periféricos"],
+        "precio": 8999,
+        "stock": 30
+    },
+    {
+        "nombre": "Mouse Inalámbrico",
+        "categorias": ["Tecnología", "Periféricos"],
+        "precio": 4999,
+        "stock": 50
+    }
+]
+
+for producto in productos_nuevos:
+    crear_producto(producto)
+                </div>
+                
+                <h3>Ejemplo 3: Consultas comunes desde frontend</h3>
+                <div class="code-block">
+// JavaScript/React - Consultar productos por categoría
+async function getProductosByCategory(categoria) {
+    try {
+        const response = await fetch(`/api/productos/categoria?categoria=${categoria}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            return data.data.map(producto => ({
+                ...producto,
+                precioFormateado: `$${(producto.precio / 100).toFixed(2)}`
+            }));
+        }
+        return [];
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        return [];
+    }
+}
+
+// Buscar productos por nombre
+async function searchProducts(query) {
+    if (query.length < 2) return [];
+    
+    const response = await fetch(`/api/productos/nombre/${encodeURIComponent(query)}`);
+    const data = await response.json();
+    
+    return data.success ? data.data : [];
+}
+
+// Formatear precio para mostrar
+function formatPrice(priceInCents) {
+    return new Intl.NumberFormat('es-AR', {
+        style: 'currency',
+        currency: 'ARS'
+    }).format(priceInCents / 100);
+}
+                </div>
+            </section>
+        </main>
+        
+        <!-- Pie de página -->
+        <footer class="footer">
+            <p>📖 Documentación de la API - Sistema de Gestión de Productos</p>
+            <p>© 2025 - Versión 1.2.0 | Última actualización: Diciembre 2025</p>
+            <div class="footer-links">
+                <a href="ayuda.html">🏠 Ayuda General</a>
+                <a href="ayuda-operadores.html">👥 Gestión de Operadores</a>
+                <a href="help.html">🌐 English Version</a>
+                <a href="#">📧 Soporte Técnico</a>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                API desarrollada con Node.js, Express y Firebase Firestore
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Smooth scroll para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Actualizar navegación activa
+                    document.querySelectorAll('.nav a').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // Resaltado de sintaxis JSON mejorado
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code-block');
+            const syntaxColors = {
+                property: '#ff79c6',
+                string: '#8be9fd',
+                number: '#bd93f9',
+                boolean: '#bd93f9',
+                null: '#ff5555',
+                punctuation: '#f8f8f2',
+                key: '#ffb86c'
+            };
+            
+            codeBlocks.forEach(block => {
+                let code = block.textContent;
+                
+                // Mejor resaltado para JSON
+                code = code
+                    .replace(/("(\\"|[^"])*"):/g, `<span style="color: ${syntaxColors.property}">$1</span>:`)
+                    .replace(/: ("(\\"|[^"])*")/g, `: <span style="color: ${syntaxColors.string}">$1</span>`)
+                    .replace(/: ([\d]+)/g, `: <span style="color: ${syntaxColors.number}">$1</span>`)
+                    .replace(/: (true|false|null)/g, `: <span style="color: ${syntaxColors.boolean}">$1</span>`)
+                    .replace(/([{}[\],])/g, `<span style="color: ${syntaxColors.punctuation}">$1</span>`);
+                
+                block.innerHTML = code;
+            });
+            
+            // Actualizar navegación activa al hacer scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('.section');
+                const navLinks = document.querySelectorAll('.nav a');
+                
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if(window.scrollY >= sectionTop && 
+                       window.scrollY < sectionTop + sectionHeight) {
+                        currentSection = '#' + section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href') === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

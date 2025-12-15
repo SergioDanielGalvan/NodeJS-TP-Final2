@@ -34,9 +34,15 @@ app.use("/auth", authRouter);
 app.use( "/api", productosRouter);
 
 app.get( '/help', (req, res) => {
-  const helpPath = path.join(__dirname, "/src/vistas/", 'ayuda.html');
+  const helpPath = path.join(__dirname, "/src/vistas/", 'ayuda_productos.html');
   res.sendFile(helpPath);
 } );
+
+app.get( '/operadores/help', (req, res) => {
+  const helpPath = path.join(__dirname, "/src/vistas/", 'ayuda_operadores.html');
+  res.sendFile(helpPath);
+} );
+
 
 app.use((req, res, next) => {
   res.status(404).json({ error: "Not Found" });
