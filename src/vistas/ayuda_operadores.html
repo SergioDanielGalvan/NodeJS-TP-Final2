@@ -4,253 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ayuda - Gestión de Operadores</title>
-    <link rel="stylesheet" href="css/estilos.css">
-    <style>
-        /* Estilos adicionales específicos para la ayuda */
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --success-color: #27ae60;
-            --danger-color: #e74c3c;
-            --warning-color: #f39c12;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f7fa;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .nav {
-            background-color: var(--light-color);
-            padding: 15px;
-            border-bottom: 2px solid #ddd;
-        }
-        
-        .nav ul {
-            display: flex;
-            list-style: none;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .nav a {
-            color: var(--dark-color);
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-        
-        .nav a:hover, .nav a.active {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .section:last-child {
-            border-bottom: none;
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--secondary-color);
-        }
-        
-        h3 {
-            color: var(--secondary-color);
-            margin: 25px 0 15px 0;
-        }
-        
-        .endpoint-card {
-            background: var(--light-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        .endpoint-method {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 4px;
-            color: white;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-right: 10px;
-        }
-        
-        .method-get { background-color: var(--success-color); }
-        .method-post { background-color: var(--secondary-color); }
-        .method-put { background-color: var(--warning-color); }
-        .method-patch { background-color: #9b59b6; }
-        .method-delete { background-color: var(--danger-color); }
-        
-        .endpoint-url {
-            font-family: 'Courier New', monospace;
-            background: #2c3e50;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 4px;
-            display: inline-block;
-            margin: 10px 0;
-            font-size: 1rem;
-        }
-        
-        .code-block {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            margin: 15px 0;
-            font-size: 0.9rem;
-        }
-        
-        .param-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        .param-table th, .param-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .param-table th {
-            background-color: var(--light-color);
-            color: var(--dark-color);
-            font-weight: 600;
-        }
-        
-        .param-table tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .note {
-            background-color: #fff8e1;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-        
-        .warning {
-            background-color: #ffeaea;
-            border-left: 4px solid #f44336;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-        
-        .success {
-            background-color: #e8f5e9;
-            border-left: 4px solid #4caf50;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background-color: var(--primary-color);
-            color: white;
-            margin-top: 40px;
-        }
-        
-        @media (max-width: 768px) {
-            .nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .endpoint-url {
-                font-size: 0.9rem;
-                overflow-x: auto;
-                max-width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/ayuda.css">
 </head>
-<body>
+<body class="operadores">
     <div class="container">
-        <!-- Encabezado -->
         <header class="header">
             <h1>📋 Ayuda - Gestión de Operadores</h1>
             <p>Documentación completa de la API para gestión de operadores del sistema</p>
             <p><strong>Base URL:</strong> nodejs-tp-final2-4xldcgcji-sergio-galvans-projects-870a1523.vercel.app/operdores</p>
+            <div class="badge">🔐 Authentication | 👥 User Management | 🛡️ Access Control</div>
         </header>
         
-        <!-- Navegación -->
         <nav class="nav">
             <ul>
-                <li><a href="#introduccion" class="active">Introducción</a></li>
-                <li><a href="#autenticacion">Autenticación</a></li>
-                <li><a href="#endpoints-publicos">Endpoints Públicos</a></li>
-                <li><a href="#endpoints-privados">Endpoints Privados</a></li>
-                <li><a href="#ejemplos">Ejemplos Prácticos</a></li>
-                <li><a href="#errores">Códigos de Error</a></li>
+                <li><a href="#introduccion" class="active">📚 Introducción</a></li>
+                <li><a href="#autenticacion">🔑 Autenticación</a></li>
+                <li><a href="#endpoints-publicos">🌐 Públicos</a></li>
+                <li><a href="#endpoints-privados">🔒 Privados</a></li>
+                <li><a href="#ejemplos">💡 Ejemplos</a></li>
+                <li><a href="#errores">🚫 Errores</a></li>
             </ul>
         </nav>
         
-        <!-- Contenido principal -->
         <main class="content">
-            <!-- Sección: Introducción -->
             <section id="introduccion" class="section">
-                <h2>📚 Introducción</h2>
+                <h2>Introducción</h2>
                 <p>Esta documentación describe todos los endpoints disponibles para la gestión de operadores en el sistema. Los operadores son usuarios administrativos con diferentes niveles de acceso.</p>
                 
                 <div class="note">
@@ -277,15 +55,15 @@
                 </ul>
             </section>
             
-            <!-- Sección: Autenticación -->
             <section id="autenticacion" class="section">
-                <h2>🔑 Autenticación</h2>
+                <h2>Autenticación</h2>
                 <p>Para acceder a los endpoints privados, primero debes obtener un token JWT mediante el login.</p>
                 
                 <div class="endpoint-card">
-                    <div>
+                    <div class="endpoint-header">
                         <span class="endpoint-method method-post">POST</span>
-                        <strong>Login de Operador</strong>
+                        <span class="endpoint-title">Login de Operador</span>
+                        <span class="access-badge public">Público</span>
                     </div>
                     <div class="endpoint-url">/auth/login</div>
                     
@@ -319,18 +97,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
                 </div>
             </section>
             
-            <!-- Sección: Endpoints Públicos -->
             <section id="endpoints-publicos" class="section">
-                <h2>🌐 Endpoints Públicos (Sin Autenticación)</h2>
+                <h2>Endpoints Públicos (Sin Autenticación)</h2>
                 
-                <!-- GET /operadores -->
                 <div class="endpoint-card">
-                    <div>
+                    <div class="endpoint-header">
                         <span class="endpoint-method method-get">GET</span>
-                        <strong>Obtener todos los operadores</strong>
+                        <span class="endpoint-title">Obtener todos los operadores</span>
+                        <span class="access-badge public">Público</span>
                     </div>
                     <div class="endpoint-url">/api/operadores</div>
-                    <p>Retorna una lista de todos los operadores registrados en el sistema.</p>
+                    <p class="endpoint-description">Retorna una lista de todos los operadores registrados en el sistema.</p>
                     
                     <h4>Response (200):</h4>
                     <div class="code-block">
@@ -343,21 +120,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
             "nombre": "Admin",
             "email": "admin@sistema.com",
             "tipooperador": 1
-        },
-        // ... más operadores
+        }
     ]
 }
                     </div>
                 </div>
                 
-                <!-- GET /operadores/:id -->
                 <div class="endpoint-card">
-                    <div>
+                    <div class="endpoint-header">
                         <span class="endpoint-method method-get">GET</span>
-                        <strong>Obtener operador por ID</strong>
+                        <span class="endpoint-title">Obtener operador por ID</span>
+                        <span class="access-badge public">Público</span>
                     </div>
                     <div class="endpoint-url">/api/operadores/:id</div>
-                    <p>Retorna un operador específico por su ID numérico.</p>
+                    <p class="endpoint-description">Retorna un operador específico por su ID numérico.</p>
                     
                     <h4>Parámetros:</h4>
                     <table class="param-table">
@@ -379,14 +155,14 @@ GET /api/operadores/1
                     </div>
                 </div>
                 
-                <!-- GET /operadores/email/:email -->
                 <div class="endpoint-card">
-                    <div>
+                    <div class="endpoint-header">
                         <span class="endpoint-method method-get">GET</span>
-                        <strong>Obtener operador por email</strong>
+                        <span class="endpoint-title">Obtener operador por email</span>
+                        <span class="access-badge public">Público</span>
                     </div>
                     <div class="endpoint-url">/api/operadores/email/:email</div>
-                    <p>Retorna un operador específico por su dirección de email.</p>
+                    <p class="endpoint-description">Retorna un operador específico por su dirección de email.</p>
                     
                     <h4>Ejemplo:</h4>
                     <div class="code-block">
@@ -395,19 +171,17 @@ GET /api/operadores/email/admin@sistema.com
                 </div>
             </section>
             
-            <!-- Sección: Endpoints Privados -->
             <section id="endpoints-privados" class="section">
-                <h2>🔒 Endpoints Privados (Requieren Autenticación)</h2>
+                <h2>Endpoints Privados (Requieren Autenticación)</h2>
                 <div class="warning">
                     <p><strong>⚠️ Importante:</strong> Todos estos endpoints requieren el header <code>Authorization: Bearer {token}</code></p>
                 </div>
                 
-                <!-- POST /operadores -->
                 <div class="endpoint-card">
-                    <div>
+                    <div class="endpoint-header">
                         <span class="endpoint-method method-post">POST</span>
-                        <strong>Crear nuevo operador</strong>
-                        <span style="color: var(--danger-color); margin-left: 10px;">Solo Admin</span>
+                        <span class="endpoint-title">Crear nuevo operador</span>
+                        <span class="access-badge admin">Solo Admin</span>
                     </div>
                     <div class="endpoint-url">/api/operadores</div>
                     
@@ -429,14 +203,14 @@ GET /api/operadores/email/admin@sistema.com
                     </ul>
                 </div>
                 
-                <!-- POST /operadores/email/:email -->
                 <div class="endpoint-card">
-                    <div>
+                    <div class="endpoint-header">
                         <span class="endpoint-method method-post">POST</span>
-                        <strong>Actualizar operador por email</strong>
+                        <span class="endpoint-title">Actualizar operador por email</span>
+                        <span class="access-badge private">Privado</span>
                     </div>
                     <div class="endpoint-url">/api/operadores/email/:email</div>
-                    <p>Actualiza los datos de un operador identificado por su email.</p>
+                    <p class="endpoint-description">Actualiza los datos de un operador identificado por su email.</p>
                     
                     <h4>Body Request (JSON):</h4>
                     <div class="code-block">
@@ -447,39 +221,36 @@ GET /api/operadores/email/admin@sistema.com
                     </div>
                 </div>
                 
-                <!-- DELETE /operadores/:id -->
                 <div class="endpoint-card">
-                    <div>
+                    <div class="endpoint-header">
                         <span class="endpoint-method method-delete">DELETE</span>
-                        <strong>Eliminar operador por ID</strong>
-                        <span style="color: var(--danger-color); margin-left: 10px;">Solo Admin</span>
+                        <span class="endpoint-title">Eliminar operador por ID</span>
+                        <span class="access-badge admin">Solo Admin</span>
                     </div>
                     <div class="endpoint-url">/api/operadores/:id</div>
-                    <p>Elimina permanentemente un operador del sistema.</p>
+                    <p class="endpoint-description">Elimina permanentemente un operador del sistema.</p>
                     
                     <div class="warning">
                         <p><strong>¡Atención!</strong> Esta acción no se puede deshacer.</p>
                     </div>
                 </div>
                 
-                <!-- PATCH /operadores/reset/:id -->
                 <div class="endpoint-card">
-                    <div>
+                    <div class="endpoint-header">
                         <span class="endpoint-method method-patch">PATCH</span>
-                        <strong>Resetear intentos de login</strong>
-                        <span style="color: var(--danger-color); margin-left: 10px;">Solo Admin</span>
+                        <span class="endpoint-title">Resetear intentos de login</span>
+                        <span class="access-badge admin">Solo Admin</span>
                     </div>
                     <div class="endpoint-url">/api/operadores/reset/:id</div>
-                    <p>Reinicia a cero el contador de intentos fallidos de login de un operador.</p>
+                    <p class="endpoint-description">Reinicia a cero el contador de intentos fallidos de login de un operador.</p>
                     
                     <h4>Use Case:</h4>
                     <p>Cuando un operador se bloquea por múltiples intentos fallidos de login.</p>
                 </div>
             </section>
             
-            <!-- Sección: Ejemplos Prácticos -->
             <section id="ejemplos" class="section">
-                <h2>💡 Ejemplos Prácticos</h2>
+                <h2>Ejemplos Prácticos</h2>
                 
                 <h3>Ejemplo 1: Crear y autenticar un operador</h3>
                 <div class="code-block">
@@ -538,9 +309,8 @@ async function crearOperador(operadorData, token) {
                 </div>
             </section>
             
-            <!-- Sección: Códigos de Error -->
             <section id="errores" class="section">
-                <h2>🚫 Códigos de Error Comunes</h2>
+                <h2>Códigos de Error Comunes</h2>
                 
                 <table class="param-table">
                     <tr>
@@ -601,14 +371,14 @@ async function crearOperador(operadorData, token) {
             </section>
         </main>
         
-        <!-- Pie de página -->
         <footer class="footer">
             <p>📖 Documentación de la API - Sistema de Gestión de Operadores</p>
             <p>© 2025 - Versión 1.0.0 | Última actualización: Diciembre 2025</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">
-                <a href="ayuda.html" style="color: #3498db; margin: 0 10px;">Ayuda General</a> | 
-                <a href="help.html" style="color: #3498db; margin: 0 10px;">English Version</a>
-            </p>
+            <div class="footer-links">
+                <a href="ayuda.html">🏠 Ayuda General</a>
+                <a href="ayuda_productos.html">🛍️ Gestión de Productos</a>
+                <a href="help.html">🌐 English Version</a>
+            </div>
         </footer>
     </div>
     
@@ -624,7 +394,7 @@ async function crearOperador(operadorData, token) {
                 const targetElement = document.querySelector(targetId);
                 if(targetElement) {
                     window.scrollTo({
-                        top: targetElement.offsetTop - 20,
+                        top: targetElement.offsetTop - 100,
                         behavior: 'smooth'
                     });
                     
@@ -640,14 +410,53 @@ async function crearOperador(operadorData, token) {
         // Resaltar sintaxis de código
         document.addEventListener('DOMContentLoaded', function() {
             const codeBlocks = document.querySelectorAll('.code-block');
+            const syntaxColors = {
+                property: '#ff79c6',
+                string: '#8be9fd',
+                number: '#bd93f9',
+                boolean: '#bd93f9',
+                null: '#ff5555',
+                punctuation: '#f8f8f2',
+                key: '#ffb86c'
+            };
+            
             codeBlocks.forEach(block => {
-                // Simple syntax highlighting para JSON
                 let code = block.textContent;
-                code = code.replace(/(".*?"):/g, '<span style="color: #ff79c6;">$1</span>:');
-                code = code.replace(/: ("(.*?)")/g, ': <span style="color: #8be9fd;">"$2"</span>');
-                code = code.replace(/: ([0-9]+)/g, ': <span style="color: #bd93f9;">$1</span>');
-                code = code.replace(/: (true|false)/g, ': <span style="color: #bd93f9;">$1</span>');
+                
+                // Mejor resaltado para JSON
+                code = code
+                    .replace(/("(\\"|[^"])*"):/g, `<span style="color: ${syntaxColors.property}">$1</span>:`)
+                    .replace(/: ("(\\"|[^"])*")/g, `: <span style="color: ${syntaxColors.string}">$1</span>`)
+                    .replace(/: ([\d]+)/g, `: <span style="color: ${syntaxColors.number}">$1</span>`)
+                    .replace(/: (true|false|null)/g, `: <span style="color: ${syntaxColors.boolean}">$1</span>`)
+                    .replace(/([{}[\],])/g, `<span style="color: ${syntaxColors.punctuation}">$1</span>`);
+                
                 block.innerHTML = code;
+            });
+            
+            // Actualizar navegación activa al hacer scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('.section');
+                const navLinks = document.querySelectorAll('.nav a');
+                
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if(window.scrollY >= sectionTop && 
+                       window.scrollY < sectionTop + sectionHeight) {
+                        currentSection = '#' + section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href') === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
             });
         });
     </script>

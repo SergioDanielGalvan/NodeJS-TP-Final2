@@ -33,6 +33,9 @@ app.use("/auth", authRouter);
 // Rutas de productos (algunas públicas, otras protegidas)
 app.use( "/api", productosRouter);
 
+
+console.log("Rutas de productos cargadas. ");
+
 app.get( '/help', (req, res) => {
   const helpPath = path.join(__dirname, "/src/vistas/", 'ayuda_productos.html');
   res.sendFile(helpPath);
